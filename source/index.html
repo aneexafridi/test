@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrbiBrain - AI Software House</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Neural network background */
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        .neural-node {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+        }
+
+        .neural-connection {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+            animation: flow 4s infinite linear;
+        }
+
+        @keyframes flow {
+            0% {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scaleX(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Logo and brand */
+        .logo {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .logo-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(45deg, #00d4ff, #0099cc, #006699);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: rotate 20s infinite linear, pulse-glow 4s infinite ease-in-out;
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.3);
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: rotate 15s infinite linear reverse;
+        }
+
+        .logo-icon::after {
+            content: '🧠';
+            font-size: 3rem;
+            animation: rotate 10s infinite linear reverse;
+        }
+
+        .brand-name {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00d4ff, #ffffff, #00d4ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s infinite ease-in-out;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        /* Coming Soon section */
+        .coming-soon {
+            margin-bottom: 3rem;
+        }
+
+        .coming-soon h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            animation: glow 2s infinite ease-in-out alternate, text-float 6s infinite ease-in-out;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 50px rgba(0, 212, 255, 0.8);
+            }
+        }
+
+        .coming-soon p {
+            font-size: 1.5rem;
+            color: #cccccc;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Floating shapes animations */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(0, 153, 204, 0.1));
+            animation: float-shape 15s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 20s;
+        }
+
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 5s;
+            animation-duration: 25s;
+            border-radius: 30%;
+        }
+
+        .shape-3 {
+            width: 80px;
+            height: 80px;
+            top: 30%;
+            right: 30%;
+            animation-delay: 10s;
+            animation-duration: 18s;
+            transform: rotate(45deg);
+            border-radius: 20%;
+        }
+
+        .shape-4 {
+            width: 120px;
+            height: 120px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 15s;
+            animation-duration: 22s;
+            border-radius: 40%;
+        }
+
+        .shape-5 {
+            width: 60px;
+            height: 60px;
+            top: 80%;
+            left: 60%;
+            animation-delay: 8s;
+            animation-duration: 16s;
+        }
+
+        @keyframes float-shape {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translateY(-30px) rotate(90deg) scale(1.1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-60px) rotate(180deg) scale(0.9);
+                opacity: 0.4;
+            }
+            75% {
+                transform: translateY(-30px) rotate(270deg) scale(1.2);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 50px rgba(0, 212, 255, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 80px rgba(0, 212, 255, 0.6);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes text-float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Enhanced particle system */
+        .particle {
+            background: linear-gradient(45deg, #00d4ff, #ffffff, #00d4ff);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+            animation: float 6s infinite linear, particle-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes particle-glow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+            }
+        }
+
+        /* Notification signup */
+        .notify-section {
+            margin-bottom: 4rem;
+        }
+
+        .notify-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 20px;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .email-input::placeholder {
+            color: #a0a0a0;
+        }
+
+        .email-input:focus {
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .notify-btn {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            border: none;
+            border-radius: 50px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notify-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .notify-btn:hover::before {
+            left: 100%;
+        }
+
+        .notify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+
+        .footer a {
+            color: #00d4ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ffffff;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .brand-name {
+                font-size: 2.5rem;
+            }
+
+            .coming-soon h1 {
+                font-size: 2.5rem;
+            }
+
+            .coming-soon p {
+                font-size: 1.2rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .notify-form {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .email-input {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .brand-name {
+                font-size: 2rem;
+            }
+
+            .coming-soon h1 {
+                font-size: 2rem;
+            }
+
+            .logo-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .logo-icon::after {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Neural network background -->
+    <div class="neural-bg" id="neural-bg"></div>
+
+    <!-- Main content -->
+    <div class="container">
+        <!-- Logo and brand -->
+        <div class="logo">
+            <div class="logo-icon"></div>
+            <h1 class="brand-name">OrbiBrain</h1>
+            <p class="tagline">Where AI Meets Innovation</p>
+        </div>
+
+        <!-- Coming Soon section -->
+        <div class="coming-soon">
+            <h1>Coming Soon</h1>
+            <p>We're building the future of artificial intelligence. Revolutionary AI solutions that will transform how businesses operate and innovate.</p>
+        </div>
+
+        <!-- Enhanced animations section -->
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+
+        <!-- Notification signup -->
+        <div class="notify-section">
+            <h3 style="margin-bottom: 1rem; color: #cccccc;">Get notified when we launch</h3>
+            <form class="notify-form" onsubmit="handleSubmit(event)">
+                <input type="email" class="email-input" placeholder="Enter your email address" required>
+                <button type="submit" class="notify-btn">Notify Me</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        Powered by <a href="#">OrbiBrain</a>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Create neural network background
+        function createNeuralNetwork() {
+            const neuralBg = document.getElementById('neural-bg');
+            const nodeCount = 20;
+            const nodes = [];
+
+            // Create nodes
+            for (let i = 0; i < nodeCount; i++) {
+                const node = document.createElement('div');
+                node.className = 'neural-node';
+                node.style.left = Math.random() * 100 + '%';
+                node.style.top = Math.random() * 100 + '%';
+                node.style.animationDelay = Math.random() * 3 + 's';
+                neuralBg.appendChild(node);
+                nodes.push(node);
+            }
+
+            // Create connections
+            for (let i = 0; i < nodeCount / 2; i++) {
+                const connection = document.createElement('div');
+                connection.className = 'neural-connection';
+                
+                const startX = Math.random() * 100;
+                const startY = Math.random() * 100;
+                const endX = Math.random() * 100;
+                const endY = Math.random() * 100;
+                
+                const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+                const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
+                
+                connection.style.left = startX + '%';
+                connection.style.top = startY + '%';
+                connection.style.width = length + '%';
+                connection.style.transform = `rotate(${angle}deg)`;
+                connection.style.animationDelay = Math.random() * 4 + 's';
+                
+                neuralBg.appendChild(connection);
+            }
+        }
+
+        // Handle form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('.email-input').value;
+            alert('Thank you for your interest! We\'ll notify you at ' + email + ' when OrbiBrain launches.');
+            event.target.reset();
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            createNeuralNetwork();
+        });
+
+        // Add smooth scrolling and interactive effects
+        document.addEventListener('mousemove', function(e) {
+            const particles = document.querySelectorAll('.particle');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            particles.forEach((particle, index) => {
+                const speed = (index % 3 + 1) * 0.5;
+                const x = (mouseX - 0.5) * speed;
+                const y = (mouseY - 0.5) * speed;
+                particle.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
+
