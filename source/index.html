@@ -5,23 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OrbiBrain - AI Software House</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary-blue: #00d4ff;
+            --secondary-blue: #0099cc;
+            --accent-purple: #6366f1;
+            --accent-pink: #ec4899;
+            --dark-space: #0a0a0f;
+            --darker-space: #050508;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --orbital-glow: rgba(0, 212, 255, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--dark-space) 40%, var(--darker-space) 100%);
+            color: var(--text-primary);
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
         }
 
-        /* Animated background particles */
-        .particles {
+        /* Stellar background system */
+        .space-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -29,86 +50,199 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
+            background: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 160px 30px, #ffffff, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: twinkle 4s ease-in-out infinite alternate;
         }
 
-        .particle {
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.8; }
+        }
+
+        /* Orbital system container */
+        .orbital-system {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(90vw, 90vh);
+            height: min(90vw, 90vh);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Central star/brain */
+        .central-orb {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: #00d4ff;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: clamp(80px, 12vw, 140px);
+            height: clamp(80px, 12vw, 140px);
+            background: radial-gradient(circle at 30% 30%, var(--primary-blue), var(--accent-purple), var(--secondary-blue));
             border-radius: 50%;
-            animation: float 6s infinite linear;
-            opacity: 0.7;
+            box-shadow: 
+                0 0 clamp(40px, 8vw, 80px) var(--orbital-glow),
+                inset 0 0 clamp(20px, 4vw, 40px) rgba(255, 255, 255, 0.2);
+            animation: central-pulse 3s ease-in-out infinite, central-rotate 20s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(2rem, 5vw, 4rem);
+            z-index: 5;
         }
 
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
+        .central-orb::after {
+            content: '🧠';
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+            animation: brain-float 4s ease-in-out infinite;
+        }
+
+        @keyframes central-pulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 clamp(40px, 8vw, 80px) var(--orbital-glow), inset 0 0 clamp(20px, 4vw, 40px) rgba(255, 255, 255, 0.2);
             }
-            10% {
-                opacity: 0.7;
-            }
-            90% {
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1);
+                box-shadow: 0 0 clamp(60px, 12vw, 120px) var(--orbital-glow), inset 0 0 clamp(30px, 6vw, 60px) rgba(255, 255, 255, 0.3);
             }
         }
 
-        /* Neural network background */
-        .neural-bg {
+        @keyframes central-rotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        @keyframes brain-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Orbital rings */
+        .orbit-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-ring-1 {
+            width: 40%;
+            height: 40%;
+            animation: orbit-ring-rotate 15s linear infinite;
+        }
+
+        .orbit-ring-2 {
+            width: 60%;
+            height: 60%;
+            animation: orbit-ring-rotate 25s linear infinite reverse;
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .orbit-ring-3 {
+            width: 80%;
+            height: 80%;
+            animation: orbit-ring-rotate 35s linear infinite;
+            border-color: rgba(236, 72, 153, 0.2);
+        }
+
+        @keyframes orbit-ring-rotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Orbiting planets/satellites */
+        .orbiting-planet {
+            position: absolute;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .planet-1 {
+            width: clamp(12px, 2vw, 20px);
+            height: clamp(12px, 2vw, 20px);
+            background: linear-gradient(45deg, var(--primary-blue), #ffffff);
+            top: 50%;
+            left: 50%;
+            transform-origin: clamp(40px, 8vw, 80px) 0;
+            animation: orbit-planet 12s linear infinite;
+        }
+
+        .planet-2 {
+            width: clamp(16px, 2.5vw, 24px);
+            height: clamp(16px, 2.5vw, 24px);
+            background: linear-gradient(45deg, var(--accent-purple), #ffffff);
+            top: 50%;
+            left: 50%;
+            transform-origin: clamp(60px, 12vw, 120px) 0;
+            animation: orbit-planet 20s linear infinite reverse;
+        }
+
+        .planet-3 {
+            width: clamp(10px, 1.5vw, 16px);
+            height: clamp(10px, 1.5vw, 16px);
+            background: linear-gradient(45deg, var(--accent-pink), #ffffff);
+            top: 50%;
+            left: 50%;
+            transform-origin: clamp(80px, 16vw, 160px) 0;
+            animation: orbit-planet 28s linear infinite;
+        }
+
+        @keyframes orbit-planet {
+            0% { transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius, 100px)) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) translateX(var(--orbit-radius, 100px)) rotate(-360deg); }
+        }
+
+        /* Cosmic particles */
+        .cosmic-particles {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 2;
+            z-index: 3;
             pointer-events: none;
-            opacity: 0.1;
         }
 
-        .neural-node {
+        .cosmic-particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #00d4ff;
+            width: 2px;
+            height: 2px;
+            background: var(--primary-blue);
             border-radius: 50%;
-            animation: pulse 3s infinite ease-in-out;
+            box-shadow: 0 0 10px var(--primary-blue);
+            animation: cosmic-drift 8s infinite linear;
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: scale(1.5);
-                opacity: 1;
-            }
-        }
-
-        .neural-connection {
-            position: absolute;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
-            animation: flow 4s infinite linear;
-        }
-
-        @keyframes flow {
+        @keyframes cosmic-drift {
             0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg) scale(0);
                 opacity: 0;
-                transform: scaleX(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) translateX(20px) rotate(45deg) scale(1);
             }
             50% {
-                opacity: 0.6;
-                transform: scaleX(1);
+                transform: translateY(50vh) translateX(-30px) rotate(180deg) scale(1.5);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) translateX(40px) rotate(315deg) scale(0.5);
             }
             100% {
+                transform: translateY(-10vh) translateX(0) rotate(360deg) scale(0);
                 opacity: 0;
-                transform: scaleX(0);
             }
         }
 
@@ -121,285 +255,169 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: clamp(1rem, 4vw, 2rem);
             text-align: center;
         }
 
-        /* Logo and brand */
-        .logo {
-            margin-bottom: 2rem;
+        /* Hero section */
+        .hero {
+            max-width: min(1200px, 90vw);
+            margin: 0 auto;
             position: relative;
+            z-index: 15;
         }
 
-        .logo-icon {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 1rem;
-            background: linear-gradient(45deg, #00d4ff, #0099cc, #006699);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Brand section */
+        .brand-section {
+            margin-bottom: clamp(3rem, 8vw, 6rem);
             position: relative;
-            animation: rotate 20s infinite linear, pulse-glow 4s infinite ease-in-out;
-            box-shadow: 0 0 50px rgba(0, 212, 255, 0.3);
-        }
-
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            width: 80%;
-            height: 80%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: rotate 15s infinite linear reverse;
-        }
-
-        .logo-icon::after {
-            content: '🧠';
-            font-size: 3rem;
-            animation: rotate 10s infinite linear reverse;
         }
 
         .brand-name {
-            font-size: 3.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #00d4ff, #ffffff, #00d4ff);
-            background-size: 200% 200%;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #ffffff 25%, var(--accent-purple) 50%, #ffffff 75%, var(--primary-blue) 100%);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: shimmer 3s infinite ease-in-out;
-            margin-bottom: 0.5rem;
+            animation: orbital-text-glow 4s ease-in-out infinite;
+            margin-bottom: clamp(1rem, 3vw, 2rem);
+            position: relative;
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.3));
         }
 
-        @keyframes shimmer {
-            0%, 100% {
+        .brand-name::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: clamp(60px, 15vw, 120px);
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
+            border-radius: 2px;
+            animation: line-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes orbital-text-glow {
+            0%, 100% { 
                 background-position: 0% 50%;
+                filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.3));
             }
-            50% {
+            50% { 
                 background-position: 100% 50%;
+                filter: drop-shadow(0 0 40px rgba(99, 102, 241, 0.6));
             }
+        }
+
+        @keyframes line-pulse {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scaleX(1); }
+            50% { opacity: 1; transform: translateX(-50%) scaleX(1.2); }
         }
 
         .tagline {
-            font-size: 1.2rem;
-            color: #a0a0a0;
-            margin-bottom: 3rem;
+            font-size: clamp(1rem, 3vw, 1.5rem);
             font-weight: 300;
-        }
-
-        /* Coming Soon section */
-        .coming-soon {
-            margin-bottom: 3rem;
-        }
-
-        .coming-soon h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
-            animation: glow 2s infinite ease-in-out alternate, text-float 6s infinite ease-in-out;
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
-            }
-            to {
-                text-shadow: 0 0 50px rgba(0, 212, 255, 0.8);
-            }
-        }
-
-        .coming-soon p {
-            font-size: 1.5rem;
-            color: #cccccc;
-            margin-bottom: 2rem;
-            max-width: 600px;
+            color: var(--text-secondary);
+            margin-bottom: clamp(3rem, 6vw, 4rem);
+            opacity: 0;
+            animation: fade-up 1s ease-out 0.5s forwards;
+            max-width: min(600px, 90vw);
+            margin-left: auto;
+            margin-right: auto;
             line-height: 1.6;
         }
 
-        /* Floating shapes animations */
-        .floating-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-            pointer-events: none;
-            overflow: hidden;
+        /* Coming soon section */
+        .coming-soon {
+            margin-bottom: clamp(3rem, 6vw, 4rem);
         }
 
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(0, 153, 204, 0.1));
-            animation: float-shape 15s infinite ease-in-out;
+        .coming-soon h1 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
+            background: linear-gradient(135deg, #ffffff, var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            opacity: 0;
+            animation: fade-up 1s ease-out 1s forwards;
         }
 
-        .shape-1 {
-            width: 100px;
-            height: 100px;
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-            animation-duration: 20s;
+        .description {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            line-height: 1.8;
+            color: var(--text-secondary);
+            max-width: min(700px, 90vw);
+            margin: 0 auto clamp(2rem, 5vw, 3rem);
+            opacity: 0;
+            animation: fade-up 1s ease-out 1.5s forwards;
         }
 
-        .shape-2 {
-            width: 150px;
-            height: 150px;
-            top: 60%;
-            right: 10%;
-            animation-delay: 5s;
-            animation-duration: 25s;
-            border-radius: 30%;
-        }
-
-        .shape-3 {
-            width: 80px;
-            height: 80px;
-            top: 30%;
-            right: 30%;
-            animation-delay: 10s;
-            animation-duration: 18s;
-            transform: rotate(45deg);
-            border-radius: 20%;
-        }
-
-        .shape-4 {
-            width: 120px;
-            height: 120px;
-            bottom: 20%;
-            left: 20%;
-            animation-delay: 15s;
-            animation-duration: 22s;
-            border-radius: 40%;
-        }
-
-        .shape-5 {
-            width: 60px;
-            height: 60px;
-            top: 80%;
-            left: 60%;
-            animation-delay: 8s;
-            animation-duration: 16s;
-        }
-
-        @keyframes float-shape {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg) scale(1);
-                opacity: 0.3;
-            }
-            25% {
-                transform: translateY(-30px) rotate(90deg) scale(1.1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translateY(-60px) rotate(180deg) scale(0.9);
-                opacity: 0.4;
-            }
-            75% {
-                transform: translateY(-30px) rotate(270deg) scale(1.2);
-                opacity: 0.7;
-            }
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% {
-                box-shadow: 0 0 50px rgba(0, 212, 255, 0.3);
-                transform: scale(1);
-            }
-            50% {
-                box-shadow: 0 0 80px rgba(0, 212, 255, 0.6);
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes text-float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        /* Enhanced particle system */
-        .particle {
-            background: linear-gradient(45deg, #00d4ff, #ffffff, #00d4ff);
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-            animation: float 6s infinite linear, particle-glow 3s infinite ease-in-out;
-        }
-
-        @keyframes particle-glow {
-            0%, 100% {
-                box-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
-            }
-            50% {
-                box-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
-            }
-        }
-
-        /* Notification signup */
+        /* Enhanced notification section */
         .notify-section {
-            margin-bottom: 4rem;
+            margin-bottom: clamp(3rem, 6vw, 4rem);
+            opacity: 0;
+            animation: fade-up 1s ease-out 2s forwards;
+            width: 100%;
+        }
+
+        .notify-title {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
         }
 
         .notify-form {
             display: flex;
-            gap: 1rem;
-            max-width: 400px;
+            gap: clamp(0.5rem, 2vw, 1rem);
+            max-width: min(500px, 90vw);
             margin: 0 auto;
+            padding: clamp(6px, 1.5vw, 8px);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 60px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             flex-wrap: wrap;
-            justify-content: center;
         }
 
         .email-input {
             flex: 1;
-            min-width: 250px;
-            padding: 15px 20px;
-            border: 2px solid rgba(0, 212, 255, 0.3);
+            min-width: min(200px, 60vw);
+            padding: clamp(12px, 3vw, 18px) clamp(16px, 4vw, 24px);
+            border: none;
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            font-size: 1rem;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             outline: none;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            font-family: inherit;
         }
 
         .email-input::placeholder {
-            color: #a0a0a0;
-        }
-
-        .email-input:focus {
-            border-color: #00d4ff;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            color: var(--text-secondary);
         }
 
         .notify-btn {
-            padding: 15px 30px;
-            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            padding: clamp(12px, 3vw, 18px) clamp(20px, 5vw, 32px);
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple));
             border: none;
             border-radius: 50px;
-            color: #ffffff;
-            font-size: 1rem;
+            color: white;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            white-space: nowrap;
+            min-width: max-content;
         }
 
         .notify-btn::before {
@@ -409,223 +427,356 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .notify-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 212, 255, 0.4);
         }
 
         .notify-btn:hover::before {
             left: 100%;
         }
 
-        .notify-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        /* Features with orbital theme */
+        .features-orbit {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 90vw), 1fr));
+            gap: clamp(1rem, 4vw, 2rem);
+            max-width: min(1000px, 95vw);
+            margin: clamp(3rem, 6vw, 4rem) auto 0;
+            opacity: 0;
+            animation: fade-up 1s ease-out 2.5s forwards;
+        }
+
+        .feature-satellite {
+            padding: clamp(1.5rem, 4vw, 2rem);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-satellite::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
+            animation: satellite-scan 3s infinite ease-in-out;
+        }
+
+        .feature-satellite:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .feature-icon {
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.6));
+            display: block;
+        }
+
+        .feature-title {
+            font-size: clamp(1.1rem, 3vw, 1.25rem);
+            font-weight: 600;
+            margin-bottom: clamp(0.5rem, 2vw, 1rem);
+            color: var(--text-primary);
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 2.5vw, 0.95rem);
+            line-height: 1.6;
+        }
+
+        @keyframes satellite-scan {
+            0%, 100% { transform: translateX(-100%); opacity: 0; }
+            50% { transform: translateX(100%); opacity: 1; }
+        }
+
+        /* Floating orbital elements */
+        .floating-satellites {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .satellite {
+            position: absolute;
+            width: clamp(20px, 3vw, 40px);
+            height: clamp(20px, 3vw, 40px);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.8), rgba(99, 102, 241, 0.3));
+            box-shadow: 0 0 clamp(20px, 4vw, 40px) rgba(0, 212, 255, 0.4);
+            animation: satellite-orbit 15s ease-in-out infinite;
+        }
+
+        .satellite-1 { top: 15%; left: 85%; animation-delay: 0s; animation-duration: 20s; }
+        .satellite-2 { top: 75%; left: 10%; animation-delay: 5s; animation-duration: 25s; }
+        .satellite-3 { top: 25%; left: 15%; animation-delay: 10s; animation-duration: 18s; }
+        .satellite-4 { bottom: 20%; right: 20%; animation-delay: 15s; animation-duration: 22s; }
+
+        @keyframes satellite-orbit {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+                opacity: 0.6;
+            }
+            25% {
+                transform: translateY(-40px) translateX(30px) rotate(90deg) scale(1.2);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-80px) translateX(-20px) rotate(180deg) scale(0.8);
+                opacity: 0.7;
+            }
+            75% {
+                transform: translateY(-40px) translateX(-50px) rotate(270deg) scale(1.4);
+                opacity: 0.9;
+            }
+        }
+
+        /* Animations */
+        @keyframes fade-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Footer */
         .footer {
-            position: absolute;
-            bottom: 20px;
+            position: relative;
+            bottom: 8px;
             left: 50%;
             transform: translateX(-50%);
-            color: #666;
-            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
             z-index: 10;
+            text-align: center;
         }
 
         .footer a {
-            color: #00d4ff;
+            color: var(--primary-blue);
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .footer a:hover {
-            color: #ffffff;
+            color: var(--text-primary);
         }
 
-        /* Responsive design */
+        /* Responsive breakpoints */
         @media (max-width: 768px) {
-            .brand-name {
-                font-size: 2.5rem;
-            }
-
-            .coming-soon h1 {
-                font-size: 2.5rem;
-            }
-
-            .coming-soon p {
-                font-size: 1.2rem;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
+            .orbital-system {
+                width: 95vw;
+                height: 70vh;
             }
 
             .notify-form {
                 flex-direction: column;
-                align-items: center;
+                align-items: stretch;
+                max-width: 90vw;
             }
 
             .email-input {
                 min-width: 100%;
+                text-align: center;
+            }
+
+            .features-orbit {
+                grid-template-columns: 1fr;
+                max-width: 90vw;
             }
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 15px;
+                padding: 1rem;
             }
 
-            .brand-name {
-                font-size: 2rem;
+            .orbital-system {
+                width: 90vw;
+                height: 60vh;
             }
 
-            .coming-soon h1 {
-                font-size: 2rem;
+            .notify-form {
+                padding: 8px;
             }
 
-            .logo-icon {
-                width: 80px;
-                height: 80px;
+            .feature-satellite {
+                padding: 1.2rem;
             }
+        }
 
-            .logo-icon::after {
-                font-size: 2rem;
+        @media (max-width: 320px) {
+            .orbital-system {
+                width: 85vw;
+                height: 50vh;
+            }
+        }
+
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .central-orb {
+                box-shadow: 
+                    0 0 clamp(50px, 10vw, 100px) var(--orbital-glow),
+                    inset 0 0 clamp(25px, 5vw, 50px) rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        /* Large screens optimization */
+        @media (min-width: 1400px) {
+            .orbital-system {
+                width: 80vw;
+                height: 80vh;
+            }
+            
+            .features-orbit {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Ultra-wide screens */
+        @media (min-width: 1920px) {
+            .container {
+                max-width: 1600px;
+                margin: 0 auto;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Animated particles -->
-    <div class="particles" id="particles"></div>
+    <!-- Stellar background -->
+    <div class="space-bg"></div>
 
-    <!-- Neural network background -->
-    <div class="neural-bg" id="neural-bg"></div>
+    <!-- Orbital system -->
+    <div class="orbital-system">
+        <!-- Central brain orb -->
+        <div class="central-orb"></div>
+        
+        <!-- Orbital rings -->
+        <div class="orbit-ring orbit-ring-1"></div>
+        <div class="orbit-ring orbit-ring-2"></div>
+        <div class="orbit-ring orbit-ring-3"></div>
+        
+        <!-- Orbiting planets -->
+        <div class="orbiting-planet planet-1"></div>
+        <div class="orbiting-planet planet-2"></div>
+        <div class="orbiting-planet planet-3"></div>
+    </div>
+
+    <!-- Cosmic particles -->
+    <div class="cosmic-particles" id="cosmic-particles"></div>
+
+    <!-- Floating satellites -->
+    <div class="floating-satellites">
+        <div class="satellite satellite-1"></div>
+        <div class="satellite satellite-2"></div>
+        <div class="satellite satellite-3"></div>
+        <div class="satellite satellite-4"></div>
+    </div>
 
     <!-- Main content -->
     <div class="container">
-        <!-- Logo and brand -->
-        <div class="logo">
-            <div class="logo-icon"></div>
-            <h1 class="brand-name">OrbiBrain</h1>
-            <p class="tagline">Where AI Meets Innovation</p>
-        </div>
+        <div class="hero">
+            <!-- Brand section -->
+            <div class="brand-section">
+                <h1 class="brand-name">OrbiBrain</h1>
+                <p class="tagline">Think. Innovate. Automate.</p>
+            </div>
 
-        <!-- Coming Soon section -->
-        <div class="coming-soon">
-            <h1>Coming Soon</h1>
-            <p>We're building the future of artificial intelligence. Revolutionary AI solutions that will transform how businesses operate and innovate.</p>
-        </div>
+            <!-- Coming Soon section -->
+            <div class="coming-soon">
+                <h1>Coming soon</h1>
+                <p class="description">
+                    Experience the impact of next-generation AI. We design intelligent systems tailored to your business needs, creating seamless harmony between human ambition and artificial intelligence.
+                </p>
+            </div>
 
-        <!-- Enhanced animations section -->
-        <div class="floating-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-            <div class="shape shape-4"></div>
-            <div class="shape shape-5"></div>
-        </div>
+            <!-- Notification signup -->
+            <div class="notify-section">
+                <h3 class="notify-title">Join Us!</h3>
+                <form class="notify-form" onsubmit="handleSubmit(event)">
+                    <input type="email" class="email-input" placeholder="Enter your email to get notified" required>
+                    <button type="submit" class="notify-btn">Launch Alert</button>
+                </form>
+            </div>
 
-        <!-- Notification signup -->
-        <div class="notify-section">
-            <h3 style="margin-bottom: 1rem; color: #cccccc;">Get notified when we launch</h3>
-            <form class="notify-form" onsubmit="handleSubmit(event)">
-                <input type="email" class="email-input" placeholder="Enter your email address" required>
-                <button type="submit" class="notify-btn">Notify Me</button>
-            </form>
+            <!-- Features with orbital theme -->
+            <div class="features-orbit">
+                <div class="feature-satellite">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Orbital Intelligence</h3>
+                    <p class="feature-desc">AI systems that orbit around your data, creating intelligent patterns and insights from every angle.</p>
+                </div>
+                <div class="feature-satellite">
+                    <div class="feature-icon">🌟</div>
+                    <h3 class="feature-title">Stellar Performance</h3>
+                    <p class="feature-desc">Lightning-fast processing that moves at the speed of light across your digital universe.</p>
+                </div>
+                <div class="feature-satellite">
+                    <div class="feature-icon">🛰️</div>
+                    <h3 class="feature-title">Satellite Networks</h3>
+                    <p class="feature-desc">Interconnected AI solutions that communicate across your entire business ecosystem.</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Footer -->
     <div class="footer">
-        Powered by <a href="#">OrbiBrain</a>
+        <p>&copy; 2025 <a href="#">OrbiBrain</a></p>
     </div>
 
     <script>
-        // Create floating particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+        // Enhanced cosmic particle system
+        function createCosmicParticles() {
+            const particlesContainer = document.getElementById('cosmic-particles');
+            const particleCount = window.innerWidth > 768 ? 40 : 20;
+            const colors = ['#00d4ff', '#6366f1', '#ec4899', '#0099cc'];
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
-                particle.className = 'particle';
+                particle.className = 'cosmic-particle';
+                
+                const size = Math.random() * 3 + 1;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
                 particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particle.style.background = color;
+                particle.style.boxShadow = `0 0 ${size * 5}px ${color}`;
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                
                 particlesContainer.appendChild(particle);
             }
         }
 
-        // Create neural network background
-        function createNeuralNetwork() {
-            const neuralBg = document.getElementById('neural-bg');
-            const nodeCount = 20;
-            const nodes = [];
-
-            // Create nodes
-            for (let i = 0; i < nodeCount; i++) {
-                const node = document.createElement('div');
-                node.className = 'neural-node';
-                node.style.left = Math.random() * 100 + '%';
-                node.style.top = Math.random() * 100 + '%';
-                node.style.animationDelay = Math.random() * 3 + 's';
-                neuralBg.appendChild(node);
-                nodes.push(node);
-            }
-
-            // Create connections
-            for (let i = 0; i < nodeCount / 2; i++) {
-                const connection = document.createElement('div');
-                connection.className = 'neural-connection';
-                
-                const startX = Math.random() * 100;
-                const startY = Math.random() * 100;
-                const endX = Math.random() * 100;
-                const endY = Math.random() * 100;
-                
-                const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-                const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
-                
-                connection.style.left = startX + '%';
-                connection.style.top = startY + '%';
-                connection.style.width = length + '%';
-                connection.style.transform = `rotate(${angle}deg)`;
-                connection.style.animationDelay = Math.random() * 4 + 's';
-                
-                neuralBg.appendChild(connection);
-            }
-        }
-
-        // Handle form submission
+        // Enhanced form submission with orbital theme
         function handleSubmit(event) {
             event.preventDefault();
             const email = event.target.querySelector('.email-input').value;
-            alert('Thank you for your interest! We\'ll notify you at ' + email + ' when OrbiBrain launches.');
-            event.target.reset();
-        }
-
-        // Initialize animations
-        document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
-            createNeuralNetwork();
-        });
-
-        // Add smooth scrolling and interactive effects
-        document.addEventListener('mousemove', function(e) {
-            const particles = document.querySelectorAll('.particle');
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
+            const button = event.target.querySelector('.notify-btn');
             
-            particles.forEach((particle, index) => {
-                const speed = (index % 3 + 1) * 0.5;
-                const x = (mouseX - 0.5) * speed;
-                const y = (mouseY - 0.5) * speed;
-                particle.style.transform = `translate(${x}px, ${y}px)`;
-            });
-        });
-    </script>
-</body>
-</html>
-
+            // Button orbital animation
+            button.
